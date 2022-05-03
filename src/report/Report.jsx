@@ -1,30 +1,21 @@
-import React from 'react';
-import { useState } from 'react';
-import ViolationsReport from './violations-report/ViolationsReport';
+import React from "react";
+import { useState } from "react";
+import JusticeBlock from "./justice-block/JusticeBlock";
+import ViolationsBlock from "./violations-block/ViolationsBlock";
+import PlanBlock from "./plan/PlanBlock";
 
 const Report = () => {
-   const [violationsArr, setviolationsArr] = useState(
-       [ {id: 1, element: ViolationsReport} ]
-   )
-   
-   
-   function deleteDashHandler( id) {
-             setviolationsArr(p => p.filter((item) => {
-                 return item.id !== id
-             }))
-     }
-   function addDashHandler( ) {
-            setviolationsArr(p => [...p, {id: p[p.length - 1].id + 1, element: ViolationsReport}])
-     }
-   
-    return (
-        <>
-            {violationsArr.map((item) => {
+ 
 
-                return <item.element  key={item.id} id={item.id} deleteDashHandlerLarge={deleteDashHandler} addDashHandlerLarge={addDashHandler}/>
-            })}
-        </>
-    );
+  return (
+    <>
+      <div className="flex justify-center flex-col items-center min-h-screen">
+        <ViolationsBlock />
+        <JusticeBlock />
+        <PlanBlock/>
+      </div>
+    </>
+  );
 };
 
 export default Report;

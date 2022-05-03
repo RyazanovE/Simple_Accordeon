@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useImperativeHandle } from "react";
 import Select from "react-select";
 
-const VilolationsSelect = ({ addDashHandler, deleteDashHandler, id }) => {
+const VilolationsSelect = ({ addDashHandler, deleteDashHandler, id, isPostReady, setpostObj, postObj }) => {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -31,6 +31,16 @@ const VilolationsSelect = ({ addDashHandler, deleteDashHandler, id }) => {
     select: false,
     input: false,
   });
+
+  useEffect(() => {
+    if (!inputsValue.input) {
+      return
+    }
+  
+    setpostObj(p => {return {...p, inputs: [...p.inputs, inputsValue]}})
+  }, [isPostReady])
+  
+
 
   useEffect(() => {
     setisLoadong(true);
@@ -114,6 +124,6 @@ const VilolationsSelect = ({ addDashHandler, deleteDashHandler, id }) => {
       />
     </div>
   );
-};
+}
 
 export default VilolationsSelect;
