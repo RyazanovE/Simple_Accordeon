@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import { Transition } from '@headlessui/react'
+
 
 const JusticeReport = ({ deleteDashHandlerLarge, addDashHandlerLarge, id }) => {
   const [inputsValue, setinputsValue] = useState({});
+  const [isShowing, setisShowing] = useState(true)
+
 
 
 function getOptions() {
@@ -25,6 +29,21 @@ function getOptions() {
   }
 
   return (
+    <Transition
+    afterLeave={() => {
+      deleteDashHandlerLarge(id)
+    }}
+    as={React.Fragment}
+    unmount
+    appear={true}
+    show={isShowing}
+    enter="transition-opacity duration-300"
+    enterFrom="opacity-0"
+    enterTo="opacity-100"
+    leave="transition-opacity duration-150"
+    leaveFrom="opacity-100"
+    leaveTo="opacity-0"
+  >
     <div className="flex flex-col w-full justify-between rounded-lg bg-white   border-[3px] border-[#e1e4e6e5] m-5 p-10 items-start relative">
       <div className="flex justify-start">
         <form className="w-full max-w-sm">
@@ -82,7 +101,7 @@ function getOptions() {
           </button>
           <button
             onClick={() => {
-              deleteDashHandlerLarge(id);
+              setisShowing(false)
             }}
             className="p-3 bg-[#0b69ff] rounded-r-lg hover:bg-[#0b9dff]"
           >
@@ -102,6 +121,7 @@ function getOptions() {
         </button>
       </div>
     </div>
+    </Transition>
   );
 };
 

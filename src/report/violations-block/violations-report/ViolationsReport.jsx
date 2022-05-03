@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Select from "react-select";
 import VilolationsSelect from "./VilolationsSelect";
+import { Transition } from '@headlessui/react'
 
 const ViolationsReport = ({
   deleteDashHandlerLarge,
@@ -8,10 +9,9 @@ const ViolationsReport = ({
   id,
 }) => {
   const [postObj, setpostObj] = useState({ npa: "", inputs: [] });
-
   const [postToogle, setpostToogle] = useState(false);
   const [selectArr, setselectArr] = useState([{ id: 1 }]);
-  console.log(postObj);
+  const [isShowing, setisShowing] = useState(true)
 
   function deleteDashHandler(id) {
     setselectArr((p) =>
@@ -21,7 +21,9 @@ const ViolationsReport = ({
     );
   }
   function addDashHandler() {
+    
     setselectArr((p) => [...p, { id: p[p.length - 1].id + 1 }]);
+    
   }
 
   function handleSaveClick() {
@@ -30,6 +32,21 @@ const ViolationsReport = ({
   }
 
   return (
+    <Transition
+    afterLeave={() => {
+      deleteDashHandlerLarge(id)
+    }}
+    as={React.Fragment}
+    unmount
+    appear={true}
+    show={isShowing}
+    enter="transition-opacity duration-300"
+    enterFrom="opacity-0"
+    enterTo="opacity-100"
+    leave="transition-opacity duration-150"
+    leaveFrom="opacity-100"
+    leaveTo="opacity-0"
+  >
     <div className="flex flex-col w-full justify-between rounded-lg   bg-white  border-[3px] border-[#e1e4e6e5] m-5 p-10 items-start relative">
       <div className="flex flex-col mb-5">
         <h2 className="min-w-[200px]">Нарушения:</h2>
@@ -49,6 +66,7 @@ const ViolationsReport = ({
           return (
             <VilolationsSelect
               postObj={postObj}
+
               isPostReady={postToogle}
               setpostObj={setpostObj}
               key={item.id}
@@ -75,7 +93,9 @@ const ViolationsReport = ({
           </button>
           <button
             onClick={() => {
-              deleteDashHandlerLarge(id);
+              setisShowing(false)
+        
+
             }}
             className="p-3 bg-[#0b69ff] rounded-r-lg hover:bg-[#0b9dff]"
           >
@@ -96,6 +116,7 @@ const ViolationsReport = ({
         </button>
       </div>
     </div>
+ </Transition>
   );
 };
 
